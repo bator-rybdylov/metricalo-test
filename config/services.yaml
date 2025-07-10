@@ -22,3 +22,20 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    app.aci_purchase:
+        class: App\Service\AciPurchase
+
+    app.shift4_purchase:
+        class: App\Service\Shift4Purchase
+
+    App\Controller\PurchaseController:
+        arguments:
+            $purchaseServiceLocator: !service_locator
+                aci: '@app.aci_purchase'
+                shift4: '@app.shift4_purchase'
+
+    App\Command\PurchaseCommand:
+        arguments:
+            $purchaseServiceLocator: !service_locator
+                aci: '@app.aci_purchase'
+                shift4: '@app.shift4_purchase'
